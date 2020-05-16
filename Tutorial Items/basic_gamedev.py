@@ -6,7 +6,11 @@ from pygame import mixer
 
 pygame.init()
 
+# screen size
+
 screen = pygame.display.set_mode((800, 600))
+
+# background
 
 background = pygame.image.load('background.jpg')
 background = pygame.transform.scale(background, (800, 600))
@@ -51,6 +55,7 @@ bulletX = 0
 bulletY = 480   
 bulletX_change = 0
 bulletY_change = 5
+# ready = in ship fire = moving
 bullet_state = 'ready'
 
 # Score
@@ -64,13 +69,15 @@ textY = 10
 
 over_font = pygame.font.Font('freesansbold.ttf', 64)
 
+# Function
+
 def show_score(textX, textY):
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (textX, textY))
 
 def game_over_text():
     over_text = font.render("GAME OVER", True, (255, 255, 255))
-    screen.blit(over_text, (200, 250))
+    screen.blit(over_text, (300, 250))
 
 def player(x, y):
     screen.blit(playerImg, (playerX, playerY))
@@ -120,7 +127,7 @@ while running:
 
     playerX += playerX_change
 
-    if playerX <= 0:
+    if playerX <= 0: 
         playerX = 0
     elif playerX >= 736:
         playerX = 736
