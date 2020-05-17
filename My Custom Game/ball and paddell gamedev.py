@@ -21,6 +21,7 @@ ballX = (random.randint(0, 735))
 ballY = (random.randint(50, 150))
 ballImg = pygame.transform.scale(ballImg, (50, 50))
 
+
 # Functions
 
 def paddle(x, y):
@@ -48,10 +49,10 @@ while running:
 
     paddleX += paddleX_change
 
-    if paddleX <=0:
-        paddleX_change = 0
-    elif paddleX >=736:
-        paddleX = 736        
+    if paddleX <= 0: 
+        paddleX = 0
+    elif paddleX >= 736:
+        playerX = 736        
 
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
