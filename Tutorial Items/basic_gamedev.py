@@ -135,8 +135,8 @@ while running:
         if enemyY[i] > 200:
             for j in range(num_of_enemies):
                 enemyY[j] = 2000
+            break 
             game_over_text()
-            break
         
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:

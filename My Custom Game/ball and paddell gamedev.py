@@ -6,6 +6,15 @@ pygame.init()
 
 # Screen
 screen = pygame.display.set_mode((800, 600))
+height = 800
+width = 736
+
+# Score
+score_value = 0
+font = pygame.font.Font('freesansbold.ttf', 32)
+
+textX = 10
+textY = 10
 
 # background
 background = pygame.image.load('background.jpg')
@@ -43,6 +52,10 @@ def isCollision(ballX, ballY, paddleX, paddleY):
     else:
         return False
 
+def show_score(textX, textY):
+    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (textX, textY))
+
 
 running = True
 while running:
@@ -72,15 +85,21 @@ while running:
     if collision:
         ballYVelocity = -ballYVelocity
         if paddleX < ballX:
-            ballXVelocity = 0.6
-        elif paddleX > ballX: 
-            ballXVelocity = -0.6
+            ballXVelocity = 0.7
+        elif paddleX > ballX:
+            ballXVelocity = -0.7
         else: ballXVelocity = 0
+        score_value += 1
+    
 
 
-        
+    if ballX < 0 or ballX >= width:
+        ballXVelocity *= -1
+
+
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
+    show_score(textX, textY)
     paddle(paddleX, paddleY)
     ball(ballX, ballY)
     ballYVelocity += 0.01
