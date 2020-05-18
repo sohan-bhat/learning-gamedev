@@ -1,4 +1,6 @@
-import pygame, random, math
+import pygame
+import random
+import math
 
 pygame.init()
 
@@ -20,6 +22,7 @@ ballX = (random.randint(0, 735))
 ballY = (random.randint(50, 150))
 ballImg = pygame.transform.scale(ballImg, (50, 50))
 ballYVelocity = 0
+ballXVelocity = 0
 
 
 # Functions
@@ -27,19 +30,24 @@ ballYVelocity = 0
 def paddle(x, y):
     screen.blit(paddleImg, (paddleX, paddleY))
 
+
 def ball(x, y):
     screen.blit(ballImg, (ballX, ballY))
 
+
 def isCollision(ballX, ballY, paddleX, paddleY):
-    distance = math.sqrt(math.pow(ballX-paddleX,2))+ (math.pow(ballY-paddleY,2))
-    if distance < 50:
+    distance = math.sqrt(math.pow(ballX-paddleX, 2)) + \
+        (math.pow(ballY-paddleY, 2))
+    if distance < 56.5:
         return True
-    else: return False
+    else:
+        return False
+
 
 running = True
 while running:
     for event in pygame.event.get():
-        
+
         if event.type == pygame.QUIT:
             running = False
 
@@ -54,23 +62,28 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 paddleX_change = 0
 
-
     paddleX += paddleX_change
 
-    if paddleX <= 0: 
+    if paddleX <= 0:
         paddleX = 0
     elif paddleX >= 736:
-        playerX = 736
-
+        paddleX = 736
     collision = isCollision(ballX, ballY, paddleX, paddleY)
     if collision:
         ballYVelocity = -ballYVelocity
-        
+        if paddleX < ballX:
+            ballXVelocity = 0.6
+        elif paddleX > ballX: 
+            ballXVelocity = -0.6
+        else: ballXVelocity = 0
 
+
+        
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
     paddle(paddleX, paddleY)
     ball(ballX, ballY)
     ballYVelocity += 0.01
     ballY += ballYVelocity
+    ballX += ballXVelocity
     pygame.display.update()
