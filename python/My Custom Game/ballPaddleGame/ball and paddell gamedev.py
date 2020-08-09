@@ -1,6 +1,5 @@
-import pygame
-import random
-import math
+import pygame, random, math
+from pygame import mixer
 
 pygame.init()
 
@@ -16,8 +15,15 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 textX = 10
 textY = 10
 
+# Game Over
+over_font = pygame.font.Font('freesansbold.ttf', 64)
+
 # background
 background = pygame.image.load('background.jpg')
+
+# background Music
+mixer.music.load('background.wav')
+mixer.music.play(-1)
 
 # Paddle
 paddleImg = pygame.image.load('paddle.png')
@@ -36,6 +42,14 @@ ballXVelocity = 0
 
 # Functions
 
+def show_score(textX, textY):
+    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (textX, textY))
+
+def game_over_text():
+    over_text = over_font.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(over_text, (300, 250))
+
 def paddle(x, y):
     screen.blit(paddleImg, (paddleX, paddleY))
 
@@ -52,9 +66,6 @@ def isCollision(ballX, ballY, paddleX, paddleY):
     else:
         return False
 
-def show_score(textX, textY):
-    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
-    screen.blit(score, (textX, textY))
 
 
 running = True
@@ -66,10 +77,10 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                paddleX_change = 2
+                paddleX_change = 3.2
 
             if event.key == pygame.K_LEFT:
-                paddleX_change = -2
+                paddleX_change = -3.2
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -85,16 +96,18 @@ while running:
     if collision:
         ballYVelocity = -ballYVelocity
         if paddleX < ballX:
-            ballXVelocity = 0.7
+            ballXVelocity = 1
         elif paddleX > ballX:
-            ballXVelocity = -0.7
+            ballXVelocity = -1
         else: ballXVelocity = 0
         score_value += 1
-    
-
 
     if ballX < 0 or ballX >= width:
         ballXVelocity *= -1
+
+    if ballY > height:
+        game_over_text()
+        break
 
 
     screen.fill((0, 0, 0))
@@ -102,7 +115,7 @@ while running:
     show_score(textX, textY)
     paddle(paddleX, paddleY)
     ball(ballX, ballY)
-    ballYVelocity += 0.01
+    ballYVelocity += 0.02
     ballY += ballYVelocity
     ballX += ballXVelocity
     pygame.display.update()
