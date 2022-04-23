@@ -1,0 +1,21 @@
+{
+  "name": "battleships",
+  "version": "1.0.0",
+  "description": "Multiplayer Battleships",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "firebase": "^9.6.11",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
